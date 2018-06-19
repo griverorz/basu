@@ -1,0 +1,126 @@
+---
+title: "Basu"
+output: 
+  flexdashboard::flex_dashboard:
+    theme: spacelab
+    navbar:
+      - { title: "About", align: right }
+    source_code: ""
+---
+
+```{r, echo=FALSE}
+htmltools::tags$script(src="http://code.jquery.com/jquery-1.10.2.min.js")
+htmltools::tags$script(src="http://cdn.opencpu.org/opencpu-0.4.js")
+htmltools::tags$script(src="basu.js")
+```
+
+```{r}
+library(flexdashboard)
+```
+
+
+
+Column {.tabset}
+-------------------------------------
+
+### Proportions
+    
+```{r}
+htmltools::tags$input(class="form-control",
+                      id="p1",
+                      placeholder="P1",
+                      type="number")
+
+htmltools::tags$input(class="form-control",
+                      id="p2",
+                      placeholder="P2",
+                      type="number")
+
+htmltools::tags$input(class="form-control",
+                      id="siglevel",
+                      placeholder="Significance level",
+                      value=0.05,
+                      type="number")
+
+htmltools::tags$input(class="form-control",
+                      id="power",
+                      placeholder="Power",
+                      type="number",
+                      max="1")
+
+htmltools::tags$input(class="form-control",
+                      id="alternative",
+                      placeholder="Alternative",
+                      value="greater",
+                      type="text")
+
+htmltools::tags$input(class="form-control",
+                      id="size1",
+                      placeholder="Size",
+                      type="number")
+
+htmltools::tags$input(class="form-control",
+                      id="size2",
+                      placeholder="Size",
+                      type="number")
+
+htmltools::tags$button("One sample", id="p1p")
+htmltools::tags$button("Two sample", id="p2p")
+```
+
+### t-test
+
+```{r}
+htmltools::tags$input(class="form-control",
+                      id="d",
+                      placeholder="D",
+                      type="number")
+
+htmltools::tags$input(class="form-control",
+                      id="sd",
+                      placeholder="SD",
+                      type="number")
+
+htmltools::tags$input(class="form-control",
+                      id="siglevel",
+                      placeholder="Significance level",
+                      value=0.05,
+                      type="number")
+
+htmltools::tags$input(class="form-control",
+                      id="power",
+                      placeholder="Power",
+                      type="number",
+                      max="1")
+
+htmltools::tags$input(class="form-control",
+                      id="alternative",
+                      placeholder="Alternative",
+                      value="greater",
+                      type="text")
+
+htmltools::tags$input(class="form-control",
+                      id="size1",
+                      placeholder="Size",
+                      type="number")
+
+htmltools::tags$input(class="form-control",
+                      id="size2",
+                      placeholder="Size",
+                      type="number")
+
+htmltools::tags$button("One sample", id="t1p")
+htmltools::tags$button("Two sample", id="t2p")
+```
+
+### Anova/Correlation
+
+pwr.anova.test: one-way balanced ANOVA
+pwr.r.test: correlation test
+
+  
+Column
+-------------------------------------
+
+### Output 
+<pre><code id="output">Something</code></pre>

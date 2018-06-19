@@ -1,0 +1,11 @@
+Package: basu
+Type: Package
+Title: Power calculations in a dashboard
+Version: 0.0.1
+Authors@R: person("Gonzalo", "Rivero", email = "gonzalorivero@westat.com",
+  role = c("aut", "cre"))
+Description: Prototype for a power calculation dashboard
+License: GPL
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.0.1
