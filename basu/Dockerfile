@@ -1,8 +1,16 @@
 FROM opencpu/base
 
+# install latex packages
+RUN apt-get update -y \
+    && apt-get install -y \
+    pandoc
+
 COPY . /basu
 WORKDIR /basu
 
-RUN Rscript -e 'devtools::install(".")'
-RUN Rscript -e 'opencpu:::ocpu_start_app("basu")'
+EXPOSE 5656
+
+ENTRYPOINT ["Rscript"]
+CMD ["setup.R"]
+
 

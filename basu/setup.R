@@ -1,8 +1,14 @@
-## index build process:
+r <- getOption('repos')
+r['CRAN'] <- 'http://cran.us.r-project.org'
+options(repos = r)
+
+install.packages(c("rmarkdown",
+                   "htmltools",
+                   "flexdashboard"))
+
 rmarkdown::render(input="index.Rmd", output_file="inst/www/index.html")
 
-## Package build process:
-devtools::uninstall()
+## devtools::uninstall()
 devtools::build(".")
 devtools::install(".")
 
