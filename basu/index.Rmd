@@ -9,16 +9,13 @@ output:
 ---
 
 ```{r, echo=FALSE}
-htmltools::tags$script(src="http://code.jquery.com/jquery-1.10.2.min.js")
-htmltools::tags$script(src="http://cdn.opencpu.org/opencpu-0.4.js")
-htmltools::tags$script(src="basu.js")
-```
-
-```{r}
 library(flexdashboard)
+library(htmltools)
+
+tags$script(src="http://code.jquery.com/jquery-1.10.2.min.js")
+tags$script(src="http://cdn.opencpu.org/opencpu-0.4.js")
+tags$script(src="basu.js")
 ```
-
-
 
 Column {.tabset}
 -------------------------------------
@@ -26,101 +23,131 @@ Column {.tabset}
 ### Proportions
     
 ```{r}
-htmltools::tags$input(class="form-control",
-                      id="p1",
-                      placeholder="P1",
-                      type="number")
+tags$div(class="form-group",
+         tags$label("First proportion"),
+         tags$input(class="form-control",
+                    type="number", min="0", max="1", step="0.001",
+                    id="p1"))
 
-htmltools::tags$input(class="form-control",
-                      id="p2",
-                      placeholder="P2",
-                      type="number")
+tags$div(class="form-group",
+         tags$label("Second proportion"),
+         tags$input(class="form-control",
+                    type="number", min="0", max="1", step="0.001",
+                    id="p2"))
 
-htmltools::tags$input(class="form-control",
-                      id="siglevel",
-                      placeholder="Significance level",
-                      value=0.05,
-                      type="number")
+tags$div(class="form-group",
+         tags$label("Significance level"),
+         tags$input(class="form-control",
+                    placeholder="Alpha level as a proportion (f.i., 0.05)",
+                    type="number", min="0", max="1", step="0.001",
+                    id="siglevel"))
 
-htmltools::tags$input(class="form-control",
-                      id="power",
-                      placeholder="Power",
-                      type="number",
-                      max="1")
+tags$div(class="form-group",
+         tags$label("Power"),
+         tags$input(class="form-control",
+                    placeholder="Power as a proportion (f.i., 0.8)",
+                    type="number", min="0", max="1", step="0.001",
+                    id="power"))
 
-htmltools::tags$input(class="form-control",
-                      id="alternative",
-                      placeholder="Alternative",
-                      value="greater",
-                      type="text")
+tags$div(class="form-group",
+         tags$label("Size"),
+         tags$input(class="form-control", 
+                    type="number", min="0", step="1",
+                    id="size"))
 
-htmltools::tags$input(class="form-control",
-                      id="size1",
-                      placeholder="Size",
-                      type="number")
+tags$div(class="form-group",
+         tags$label("Alternative hypothesis"),
+         tags$select("form-control",
+                     tags$option("Greater", value="greater"),
+                     tags$option("Smaller", value="less"),
+                     tags$option("Two sided", value="two.sided"),
+         id="alternative"))
 
-htmltools::tags$input(class="form-control",
-                      id="size2",
-                      placeholder="Size",
-                      type="number")
+tags$fieldset(class="form-group",
+              tags$legend("Test"),
+              tags$div(class="form-check",
+                       tags$label(class="form-check-label",
+                                  tags$input(value="pwr.p.test",
+                                             checked="",
+                                             class="form-check-input",
+                                             name="pname",
+                                             type="radio"),
+                                  "One sample")),
+              tags$div(class="form-check",
+                       tags$label(class="form-check-label",
+                                  tags$input(value="pwr.2p.test",
+                                             class="form-check-input",
+                                             name="pname",
+                                             type="radio"),
+                                  "Two samples")),
+              id="pfunction")
 
-htmltools::tags$button("One sample", id="p1p")
-htmltools::tags$button("Two sample", id="p2p")
+tags$button("Submit", type="submit", class="btn btn-primary", id="ptest")
 ```
-
+  
 ### t-test
 
-```{r}
-htmltools::tags$input(class="form-control",
-                      id="d",
-                      placeholder="D",
-                      type="number")
+Same thing
 
-htmltools::tags$input(class="form-control",
-                      id="sd",
-                      placeholder="SD",
-                      type="number")
-
-htmltools::tags$input(class="form-control",
-                      id="siglevel",
-                      placeholder="Significance level",
-                      value=0.05,
-                      type="number")
-
-htmltools::tags$input(class="form-control",
-                      id="power",
-                      placeholder="Power",
-                      type="number",
-                      max="1")
-
-htmltools::tags$input(class="form-control",
-                      id="alternative",
-                      placeholder="Alternative",
-                      value="greater",
-                      type="text")
-
-htmltools::tags$input(class="form-control",
-                      id="size1",
-                      placeholder="Size",
-                      type="number")
-
-htmltools::tags$input(class="form-control",
-                      id="size2",
-                      placeholder="Size",
-                      type="number")
-
-htmltools::tags$button("One sample", id="t1p")
-htmltools::tags$button("Two sample", id="t2p")
-```
-
-### Anova/Correlation
-
-pwr.anova.test: one-way balanced ANOVA
-pwr.r.test: correlation test
-
-  
-Column
+Column 
 -------------------------------------
 
-### Output 
-<pre><code id="output">Something</code></pre>
+### Output
+
+<style>
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+</style>
+
+<table style="width:100%">
+<tr>
+  <th>Attribute</th>
+  <th>Value</th>
+</tr>
+
+<tr>
+  <td>Hypothesis</td>
+  <td id="tabh"></td>
+</tr>
+
+<tr>
+  <td>N</td>
+  <td id="tabn"></td>
+</tr>
+
+<tr>
+  <td>Significance</td>
+  <td id="tabsiglevel"></td>
+</tr>
+
+<tr>
+  <td>Power</td>
+  <td id="tabpower"></td>
+</tr>
+
+<tr>
+  <td>Alternative Hypothesis</td>
+  <td id="tabalternative"></td>
+</trb>
+
+<tr>
+  <td>Method</td>
+  <td id="tabmethod"></td>
+</tr>
+
+<tr>
+  <td>Note</td>
+  <td id="tabnote"></td>
+</tr>
+
+</table> 
+

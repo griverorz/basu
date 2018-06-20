@@ -2627,9 +2627,6 @@ window.FlexDashboardComponents.push({
 
 </div>
 <p><script src="http://code.jquery.com/jquery-1.10.2.min.js"></script><script src="http://cdn.opencpu.org/opencpu-0.4.js"></script><script src="basu.js"></script></p>
-<div class="knitr-options" data-fig-width="576" data-fig-height="460">
-
-</div>
 <div id="column" class="section level2 tabset">
 <h2>Column</h2>
 <div id="proportions" class="section level3">
@@ -2637,25 +2634,126 @@ window.FlexDashboardComponents.push({
 <div class="knitr-options" data-fig-width="576" data-fig-height="460">
 
 </div>
-<p><input class="form-control" id="p1" placeholder="P1" type="number"/><input class="form-control" id="p2" placeholder="P2" type="number"/><input class="form-control" id="siglevel" placeholder="Significance level" value="0.05" type="number"/><input class="form-control" id="power" placeholder="Power" type="number" max="1"/><input class="form-control" id="alternative" placeholder="Alternative" value="greater" type="text"/><input class="form-control" id="size" placeholder="Size" type="number"/><button id="p1p">One sample</button><button id="p2p">Two sample</button></p>
+<p><div class="form-group">
+<label>First proportion</label>
+<input class="form-control" type="number" min="0" max="1" step="0.001" id="p1"/>
+</div><div class="form-group">
+<label>Second proportion</label>
+<input class="form-control" type="number" min="0" max="1" step="0.001" id="p2"/>
+</div><div class="form-group">
+<label>Significance level</label>
+<input class="form-control" placeholder="Alpha level as a proportion (f.i., 0.05)" type="number" min="0" max="1" step="0.001" id="siglevel"/>
+</div><div class="form-group">
+<label>Power</label>
+<input class="form-control" placeholder="Power as a proportion (f.i., 0.8)" type="number" min="0" max="1" step="0.001" id="power"/>
+</div><div class="form-group">
+<label>Size</label>
+<input class="form-control" type="number" min="0" step="1" id="size"/>
+</div><div class="form-group">
+<label>Alternative hypothesis</label>
+<select id="alternative">
+form-control
+<option value="greater">Greater</option>
+<option value="less">Smaller</option>
+<option value="two.sided">Two sided</option>
+</select>
+</div><fieldset class="form-group" id="pfunction">
+<legend>Test</legend>
+<div class="form-check">
+<label class="form-check-label">
+<input value="pwr.p.test" checked="" class="form-check-input" name="pname" type="radio"/>
+One sample
+</label>
+</div>
+<div class="form-check">
+<label class="form-check-label">
+<input value="pwr.2p.test" class="form-check-input" name="pname" type="radio"/>
+Two samples
+</label>
+</div>
+</fieldset><button type="submit" class="btn btn-primary" id="ptest">Submit</button></p>
 </div>
 <div id="t-test" class="section level3">
 <h3>t-test</h3>
-<div class="knitr-options" data-fig-width="576" data-fig-height="460">
-
-</div>
-<p><input class="form-control" id="d" placeholder="D" type="number"/><input class="form-control" id="sd" placeholder="SD" type="number"/><input class="form-control" id="siglevel" placeholder="Significance level" value="0.05" type="number"/><input class="form-control" id="power" placeholder="Power" type="number" max="1"/><input class="form-control" id="alternative" placeholder="Alternative" value="greater" type="text"/><input class="form-control" id="size1" placeholder="Size" type="number"/><input class="form-control" id="size2" placeholder="Size" type="number"/><button id="t1p">One sample</button><button id="t2p">Two sample</button></p>
-</div>
-<div id="anovacorrelation" class="section level3">
-<h3>Anova/Correlation</h3>
-<p>pwr.anova.test: one-way balanced ANOVA pwr.r.test: correlation test</p>
+<p>Same thing</p>
 </div>
 </div>
 <div id="column-1" class="section level2">
 <h2>Column</h2>
 <div id="output" class="section level3">
 <h3>Output</h3>
-<pre><code id="output">Something</code></pre>
+<style>
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+</style>
+<table style="width:100%">
+<tr>
+<th>
+Attribute
+</th>
+<th>
+Value
+</th>
+</tr>
+<tr>
+<td>
+Hypothesis
+</td>
+<td id="tabh">
+</td>
+</tr>
+<tr>
+<td>
+N
+</td>
+<td id="tabn">
+</td>
+</tr>
+<tr>
+<td>
+Significance
+</td>
+<td id="tabsiglevel">
+</td>
+</tr>
+<tr>
+<td>
+Power
+</td>
+<td id="tabpower">
+</td>
+</tr>
+<tr>
+<td>
+Alternative Hypothesis
+</td>
+<td id="tabalternative">
+</td>
+<p></trb></p>
+<tr>
+<td>
+Method
+</td>
+<td id="tabmethod">
+</td>
+</tr>
+<tr>
+<td>
+Note
+</td>
+<td id="tabnote">
+</td>
+</tr>
+</table>
 </div>
 </div>
 
