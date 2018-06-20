@@ -8,7 +8,10 @@ install.packages(c("rmarkdown",
 
 rmarkdown::render(input="index.Rmd", output_file="inst/www/index.html")
 
-## devtools::uninstall()
+if ("basu" %in% rownames(installed.packages())) {
+    devtools::uninstall()
+}
+
 devtools::build(".")
 devtools::install(".")
 
