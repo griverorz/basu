@@ -21,36 +21,40 @@ Column {.tabset}
 -------------------------------------
 
 ### Proportions
-    
+
+<p>Leave empty the box that you want to calculate.</p>
+
 ```{r}
 tags$div(class="form-group",
          tags$label("First proportion"),
          tags$input(class="form-control",
+                    placeholder="First proportion (e.g., 0.8)",
                     type="number", min="0", max="1", step="0.001",
                     id="p1"))
 
 tags$div(class="form-group",
          tags$label("Second proportion"),
          tags$input(class="form-control",
+                    placeholder="First proportion (e.g., 0.2)",
                     type="number", min="0", max="1", step="0.001",
                     id="p2"))
 
 tags$div(class="form-group",
          tags$label("Significance level"),
          tags$input(class="form-control",
-                    placeholder="Alpha level as a proportion (f.i., 0.05)",
+                    placeholder="Alpha level as a proportion (e.g., 0.05)",
                     type="number", min="0", max="1", step="0.001",
                     id="siglevel"))
 
 tags$div(class="form-group",
          tags$label("Power"),
          tags$input(class="form-control",
-                    placeholder="Power as a proportion (f.i., 0.8)",
+                    placeholder="Power as a proportion (e.g., 0.8)",
                     type="number", min="0", max="1", step="0.001",
                     id="power"))
 
 tags$div(class="form-group",
-         tags$label("Size"),
+         tags$label("Sample size"),
          tags$input(class="form-control", 
                     type="number", min="0", step="1",
                     id="size"))
@@ -58,10 +62,10 @@ tags$div(class="form-group",
 tags$div(class="form-group",
          tags$label("Alternative hypothesis"),
          tags$select("form-control",
-                     tags$option("Greater", value="greater"),
-                     tags$option("Smaller", value="less"),
                      tags$option("Two sided", value="two.sided"),
-         id="alternative"))
+                     tags$option("First proportion smaller than second", value="less"),
+                     tags$option("First proportion greater than second", value="greater"),
+                     id="alternative"))
 
 tags$fieldset(class="form-group",
               tags$legend("Test"),
@@ -115,12 +119,12 @@ td, th {
 </tr>
 
 <tr>
-  <td>Hypothesis</td>
+  <td>Effect size</td>
   <td id="tabh"></td>
 </tr>
 
 <tr>
-  <td>N</td>
+  <td>Sample size</td>
   <td id="tabn"></td>
 </tr>
 
