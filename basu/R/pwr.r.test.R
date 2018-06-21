@@ -64,7 +64,9 @@ c(-1+1e-10, 1 - 1e-10))$root}
         sig.level <- uniroot(function(sig.level) eval(p.body) - 
             power, c(1e-10, 1 - 1e-10))$root
     else stop("internal error")
-    METHOD <- "approximate correlation power calculation (arctangh transformation)"
+    METHOD <- "Approximate correlation power calculation (arctangh transformation)"
+    alternative <- switch(alternative, two.sided = "Two sided", less = "Less", 
+                           greater = "Greater")
     structure(list(n = n, r = r, sig.level = sig.level, power = power, 
         alternative = alternative, method = METHOD), class = "power.htest")
 }

@@ -1,5 +1,5 @@
 ---
-title: "Basu! Sample size calculator"
+title: "Sample size calculator"
 output: 
   flexdashboard::flex_dashboard:
     theme: flatly
@@ -33,7 +33,7 @@ tags$div(class="form-group",
 tags$div(class="form-group",
          tags$label("Second proportion"),
          tags$input(class="form-control",
-                    placeholder="Second proportion (e.g., 0.2)",
+                    placeholder="Second proportion (e.g., 0.2) or empty for effect size",
                     type="number", min="0", max="1", step="0.001",
                     id="p2"))
 
@@ -56,6 +56,13 @@ tags$div(class="form-group", id="isize",
          tags$input(class="form-control", 
                     type="number", min="0", step="1",
                     id="size1"))
+
+tags$div(class="form-group", 
+         tags$label("Design effect"),
+         tags$input(class="form-control",
+                    value="1",
+                    type="number",
+                    id="deff"))
 
 tags$div(class="form-group",
          tags$label("Alternative hypothesis"),
@@ -112,6 +119,13 @@ tags$div(class="form-group",
                     type="number", min="0", step="1",
                     id="tsize"))
 
+tags$div(class="form-group", 
+         tags$label("Design effect"),
+         tags$input(class="form-control",
+                    value="1",
+                    type="number",
+                    id="tdeff"))
+
 tags$div(class="form-group",
          tags$label("Alternative hypothesis"),
          tags$select(class="form-control",
@@ -123,15 +137,80 @@ tags$div(class="form-group",
 tags$div(class="form-group",
          tags$label("Type of t test"),
          tags$select(class="form-control",
-                     tags$option("One sample", value="one"),
-                     tags$option("Two samples", value="two"),
+                     tags$option("One sample", value="one.sample"),
+                     tags$option("Two samples", value="two.sample"),
                      tags$option("Paired samples", value="paired"),
                      id="ttype"))
 
 tags$button("Submit", type="submit", class="btn btn-primary", id="ttest")
 ```
 
-Column 
+### Correlations
+
+<p><em>Leave empty the box that you want to calculate.</em></p>
+
+```{r}
+tags$div(class="form-group",
+         tags$label("Correlation"),
+         tags$input(class="form-control",
+                    placeholder="Correlation coefficient",
+                    type="number", step="0.001",
+                    id="rr"))
+
+tags$div(class="form-group",
+         tags$label("Significance level"),
+         tags$input(class="form-control",
+                    placeholder="Alpha level as a proportion (e.g., 0.05)",
+                    type="number", min="0", max="1", step="0.001",
+                    id="rsiglevel"))
+
+tags$div(class="form-group",
+         tags$label("Power"),
+         tags$input(class="form-control",
+                    placeholder="Power as a proportion (e.g., 0.8)",
+                    type="number", min="0", max="1", step="0.001",
+                    id="rpower"))
+
+tags$div(class="form-group",
+         tags$label("Sample size"),
+         tags$input(class="form-control", 
+                    type="number", min="0", step="1",
+                    id="rsize"))
+
+tags$div(class="form-group",
+         tags$label("Alternative hypothesis"),
+         tags$select(class="form-control",
+                     tags$option("Two sided", value="two.sided"),
+                     tags$option("Smaller than", value="less"),
+                     tags$option("Greater than", value="greater"),
+                     id="ralternative"))
+
+tags$button("Submit", type="submit", class="btn btn-primary", id="rtest")
+```
+
+### Effect sizes
+
+```{r}
+tags$div(class="form-group",
+         tags$label("Test"),
+         tags$select(class="form-control",
+                     tags$option("Proportions", value="p"),
+                     tags$option("t-test", value="t"),
+                     tags$option("Correlation", value="r"),
+                     id="cohentest"))
+
+tags$div(class="form-group",
+         tags$label("Effect size"),
+         tags$select(class="form-control",
+                     tags$option("Small", value="small"),
+                     tags$option("Medium", value="medium"),
+                     tags$option("Large", value="large"),
+                     id="coheneffsize"))
+
+tags$button("Submit", type="submit", class="btn btn-primary", id="cohensize")
+```
+
+Column
 -------------------------------------
 
 ### Output
@@ -140,4 +219,3 @@ Column
 <tbody>
 </tbody>
 </table> 
-

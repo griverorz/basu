@@ -22,7 +22,9 @@ if(ntest==6){
 ES<-switch(size,small=0.02,medium=0.15,large=0.35)
 }
 
-METHOD <- "Conventional effect size from Cohen (1982)"
+    METHOD <- "Conventional effect size from Cohen (1982)"
+    size <- switch(size, small="Small", medium="Medium", large="Large")
+
 structure(list(test = test,size=size,effect.size=ES,
 method = METHOD), class = "power.htest")
 }

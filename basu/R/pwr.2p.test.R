@@ -1,6 +1,6 @@
 "pwr.2p.test" <-
 function (h = NULL, n = NULL, sig.level = 0.05, power = NULL, 
-    alternative = c("two.sided","less","greater")) 
+    alternative = c("two.sided","less","greater"), deff=1) 
 {
     if (sum(sapply(list(h, n, power, sig.level), is.null)) != 
         1) 
@@ -50,15 +50,17 @@ function (h = NULL, n = NULL, sig.level = 0.05, power = NULL,
 }
     else if (is.null(n)) 
         n <- uniroot(function(n) eval(p.body) - power, c(2 + 
-            1e-10, 1e+09))$root
+            1e-10, 1e+09))$root * deff
     else if (is.null(sig.level)) 
         sig.level <- uniroot(function(sig.level) eval(p.body) - 
             power, c(1e-10, 1 - 1e-10))$root
     else stop("internal error")
-    NOTE <- "same sample sizes"
+    NOTE <- "Same sample sizes"
     METHOD <- "Difference of proportion power calculation for binomial distribution (arcsine transformation)"
+    alternative <- switch(alternative, two.sided = "Two sided", less = "Less", 
+                          greater = "Greater")
     structure(list(h = h, n = n, sig.level = sig.level, power = power, 
-        alternative = alternative, method = METHOD, note = NOTE), 
+        alternative = alternative, method = METHOD, note = NOTE, deff=deff), 
         class = "power.htest")
 }
 

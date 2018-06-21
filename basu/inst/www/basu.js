@@ -6,9 +6,11 @@ function EH(p1, p2) {
 function build_table(x) {
 
     var hnames = {
+        r : "Correlation coefficient",
         h : "Effect size",
         d : "Effect size",
         n : "Sample size",
+        deff : "Design effect",
         n1 : "Sample one size",
         n2 : "Sample two size",
         "sig.level" : "Significance level",
@@ -31,6 +33,28 @@ function build_table(x) {
     $("tr:even").addClass("table-active");    
 }
 
+function cohen_table(x) {
+    
+    var hnames = {
+        "test" : "Test",
+        "size" : "Size",
+        "effect.size" : "Effect size",
+        "method" : "Method",
+    }
+
+    var table = $("#basuoutput");
+    table.find('tbody').empty();
+        
+    for (var key in x){
+        var row =  $('<tr/>', {class: '' }); 
+        row.append($('<td/>').append(hnames[key]));
+        row.append($('<td/>').append(x[key]));
+        table.find('tbody').append(row);
+    }
+    $('#basuoutput').addClass("table table-hover");
+    $("tr:even").addClass("table-active");    
+}
+
 
 function p_test_param_builder() {
     var params = {};
@@ -40,6 +64,7 @@ function p_test_param_builder() {
     params["power"] = parseFloat($("#power").val()) || null;
     params["alternative"] = $("#alternative").val();
     params["n"] = Number($("#size1").val()) || null;
+    params["deff"] = parseFloat(Number($("#deff").val()));
         
     for (var key in params) {
         if (params[key] == null) {
@@ -67,6 +92,7 @@ function t_test_param_builder() {
     params["n"] = Number($("#tsize").val()) || null;
     params["alternative"] = $("#talternative").val();
     params["type"] = $("#ttype").val();
+    params["deff"] = parseFloat($("#deff").val()); 
     
     for (var key in params) {
         if (params[key] == null) {
@@ -76,7 +102,25 @@ function t_test_param_builder() {
     
     return params;
 }
-                      
+
+
+
+function r_test_param_builder() {
+    var params = {};
+    params["r"] = parseFloat($("#rr").val()) || null;
+    params["sig.level"] = parseFloat($("#rsiglevel").val()) || null;
+    params["power"] = parseFloat($("#rpower").val()) || null;
+    params["n"] = Number($("#rsize").val()) || null;
+    params["alternative"] = $("#ralternative").val();
+    
+    for (var key in params) {
+        if (params[key] == null) {
+            delete params[key];
+        }
+    }
+    
+    return params;
+}
 
 
 $(document).ready(function() {
@@ -102,9 +146,12 @@ $(document).ready(function() {
         var req = ocpu.rpc(f,
                            params,                           
                            function(output) {
+                               if (("n" in params) && (params["deff"] != 1)) {
+                                   output["deff"] = "Design effect was ignored";
+                               }
+
                                build_table(output);
                            });
-        
         req.fail(function() {
             alert("Error: " + req.responseText);
         });
@@ -115,7 +162,38 @@ $(document).ready(function() {
         var req = ocpu.rpc("pwr.t.test",
                            params,
                            function(output) {
+                               if (("n" in params) && (params["deff"] != 1)) {
+                                   output["deff"] = "Design effect was ignored";
+                               }
                                build_table(output);
+                           });
+        
+        req.fail(function() {
+            alert("Error: " + req.responseText);
+        });
+    });
+
+    $("#rtest").click(function() {
+        var params = r_test_param_builder();
+        var req = ocpu.rpc("pwr.r.test",
+                           params,
+                           function(output) {
+                               build_table(output);
+                           });
+        
+        req.fail(function() {
+            alert("Error: " + req.responseText);
+        });
+    });
+   
+    $("#cohensize").click(function() {
+        var req = ocpu.rpc("cohen.ES",
+                           {
+                               test : $("#cohentest").val(),
+                               size : $("#coheneffsize").val()
+                           },
+                           function(output) {
+                               cohen_table(output);
                            });
         
         req.fail(function() {

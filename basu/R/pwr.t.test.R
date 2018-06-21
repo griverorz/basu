@@ -1,7 +1,7 @@
 "pwr.t.test" <-
 function (n = NULL, d = NULL, sig.level = 0.05, power = NULL, 
     type = c("two.sample", "one.sample", "paired"), alternative = c("two.sided", 
-        "less","greater")) 
+        "less","greater"), deff=1) 
 {
     if (sum(sapply(list(n, d, power, sig.level), is.null)) != 
         1) 
@@ -47,7 +47,7 @@ ttside<-switch(alternative, less = 1, two.sided = 2, greater=3)
         power <- eval(p.body)
     else if (is.null(n)) 
         n <- uniroot(function(n) eval(p.body) - power, c(2 + 
-            1e-10, 1e+09))$root
+            1e-10, 1e+09))$root * deff
     else if (is.null(d)) {
  	if(ttside==2){       d <- uniroot(function(d) eval(p.body) - power, c(1e-07, 
             10))$root}
@@ -64,9 +64,12 @@ if(ttside==3){       d <- uniroot(function(d) eval(p.body) - power, c(-5,
     NOTE <- switch(type, paired = "n is number of *pairs*", two.sample = "n is number in *each* group", 
         NULL)
     METHOD <- paste(switch(type, one.sample = "One-sample", two.sample = "Two-sample", 
-        paired = "Paired"), "t test power calculation")
+                           paired = "Paired"), "t test power calculation")
+    alternative <- switch(alternative, two.sided = "Two sided", less = "Less", 
+                           greater = "Greater")
     structure(list(n = n, d = d, sig.level = sig.level, power = power, 
-        alternative = alternative, note = NOTE, method = METHOD), 
+        alternative = alternative, note = NOTE, method = METHOD, deff=deff), 
         class = "power.htest")
 }
+
 
