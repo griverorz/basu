@@ -1,6 +1,6 @@
 # Basu
 
-`Basu` is an interactive sample size calculator that exposed a customized
+`Basu` is an interactive sample size calculator that exposes a customized
 version of the
 [`pwr`](https://cran.r-project.org/web/packages/pwr/vignettes/pwr-vignette.html)
 package. `Basu` is designed to run on OpenCPU using a flexdashboard frontend. In
