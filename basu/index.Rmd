@@ -1,11 +1,9 @@
 ---
-title: "Basu"
+title: "Basu! Sample size calculator"
 output: 
   flexdashboard::flex_dashboard:
-    theme: spacelab
-    navbar:
-      - { title: "About", align: right }
-    source_code: ""
+    theme: flatly
+    source_code: "http://devtools01.westat.com:8081/rivero_g/basu/"
 ---
 
 ```{r, echo=FALSE}
@@ -22,20 +20,20 @@ Column {.tabset}
 
 ### Proportions
 
-<p>Leave empty the box that you want to calculate.</p>
+<p><em>Leave empty the box that you want to calculate.</em></p>
 
 ```{r}
 tags$div(class="form-group",
-         tags$label("First proportion"),
+         tags$label("First proportion (or effect size)"),
          tags$input(class="form-control",
-                    placeholder="First proportion (e.g., 0.8)",
+                    placeholder="First proportion (e.g., 0.8) or effect size",
                     type="number", min="0", max="1", step="0.001",
                     id="p1"))
 
 tags$div(class="form-group",
          tags$label("Second proportion"),
          tags$input(class="form-control",
-                    placeholder="First proportion (e.g., 0.2)",
+                    placeholder="Second proportion (e.g., 0.2)",
                     type="number", min="0", max="1", step="0.001",
                     id="p2"))
 
@@ -46,112 +44,100 @@ tags$div(class="form-group",
                     type="number", min="0", max="1", step="0.001",
                     id="siglevel"))
 
-tags$div(class="form-group",
+tags$div(class="form-group", 
          tags$label("Power"),
          tags$input(class="form-control",
                     placeholder="Power as a proportion (e.g., 0.8)",
                     type="number", min="0", max="1", step="0.001",
                     id="power"))
 
+tags$div(class="form-group", id="isize",
+         tags$label("Sample size"),
+         tags$input(class="form-control", 
+                    type="number", min="0", step="1",
+                    id="size1"))
+
+tags$div(class="form-group",
+         tags$label("Alternative hypothesis"),
+         tags$select(class="form-control",                     
+                     tags$option("Two sided",
+                                 value="two.sided"),
+                     tags$option("First proportion smaller than second",
+                                 value="less"),
+                     tags$option("First proportion greater than second",
+                                 value="greater"),
+                     id="alternative"))
+
+tags$div(class="form-group",
+         tags$label("Type of test"),
+         tags$select(class="form-control",
+                     tags$option("One sample", value="pwr.p.test"),
+                     tags$option("Two samples", value="pwr.2p.test"),
+                     ## tags$option("Two sample (different sizes)",
+                     ##             value="pwr.2p2n.test"),                     
+                     id="pfunction"))
+
+tags$button("Submit", type="submit", class="btn btn-primary", id="ptest")
+```
+
+### Means
+
+<p><em>Leave empty the box that you want to calculate.</em></p>
+
+```{r}
+tags$div(class="form-group",
+         tags$label("True difference"),
+         tags$input(class="form-control",
+                    placeholder="Effect size (Cohen's d)",
+                    type="number", step="0.001",
+                    id="td"))
+
+tags$div(class="form-group",
+         tags$label("Significance level"),
+         tags$input(class="form-control",
+                    placeholder="Alpha level as a proportion (e.g., 0.05)",
+                    type="number", min="0", max="1", step="0.001",
+                    id="tsiglevel"))
+
+tags$div(class="form-group",
+         tags$label("Power"),
+         tags$input(class="form-control",
+                    placeholder="Power as a proportion (e.g., 0.8)",
+                    type="number", min="0", max="1", step="0.001",
+                    id="tpower"))
+
 tags$div(class="form-group",
          tags$label("Sample size"),
          tags$input(class="form-control", 
                     type="number", min="0", step="1",
-                    id="size"))
+                    id="tsize"))
 
 tags$div(class="form-group",
          tags$label("Alternative hypothesis"),
-         tags$select("form-control",
+         tags$select(class="form-control",
                      tags$option("Two sided", value="two.sided"),
-                     tags$option("First proportion smaller than second", value="less"),
-                     tags$option("First proportion greater than second", value="greater"),
-                     id="alternative"))
+                     tags$option("Smaller than", value="less"),
+                     tags$option("Greater than", value="greater"),
+                     id="talternative"))
 
-tags$fieldset(class="form-group",
-              tags$legend("Test"),
-              tags$div(class="form-check",
-                       tags$label(class="form-check-label",
-                                  tags$input(value="pwr.p.test",
-                                             checked="",
-                                             class="form-check-input",
-                                             name="pname",
-                                             type="radio"),
-                                  "One sample")),
-              tags$div(class="form-check",
-                       tags$label(class="form-check-label",
-                                  tags$input(value="pwr.2p.test",
-                                             class="form-check-input",
-                                             name="pname",
-                                             type="radio"),
-                                  "Two samples")),
-              id="pfunction")
+tags$div(class="form-group",
+         tags$label("Type of t test"),
+         tags$select(class="form-control",
+                     tags$option("One sample", value="one"),
+                     tags$option("Two samples", value="two"),
+                     tags$option("Paired samples", value="paired"),
+                     id="ttype"))
 
-tags$button("Submit", type="submit", class="btn btn-primary", id="ptest")
+tags$button("Submit", type="submit", class="btn btn-primary", id="ttest")
 ```
-  
-### t-test
-
-Same thing
 
 Column 
 -------------------------------------
 
 ### Output
 
-<style>
-table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-}
-
-td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-}
-</style>
-
-<table style="width:100%">
-<tr>
-  <th>Attribute</th>
-  <th>Value</th>
-</tr>
-
-<tr>
-  <td>Effect size</td>
-  <td id="tabh"></td>
-</tr>
-
-<tr>
-  <td>Sample size</td>
-  <td id="tabn"></td>
-</tr>
-
-<tr>
-  <td>Significance</td>
-  <td id="tabsiglevel"></td>
-</tr>
-
-<tr>
-  <td>Power</td>
-  <td id="tabpower"></td>
-</tr>
-
-<tr>
-  <td>Alternative Hypothesis</td>
-  <td id="tabalternative"></td>
-</trb>
-
-<tr>
-  <td>Method</td>
-  <td id="tabmethod"></td>
-</tr>
-
-<tr>
-  <td>Note</td>
-  <td id="tabnote"></td>
-</tr>
-
+<table id="basuoutput">
+<tbody>
+</tbody>
 </table> 
 
