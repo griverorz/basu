@@ -33,6 +33,7 @@ function build_table(x) {
     $("tr:even").addClass("table-active");    
 }
 
+
 function cohen_table(x) {
     
     var hnames = {

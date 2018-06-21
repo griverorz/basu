@@ -1,10 +1,10 @@
 Package: basu
 Type: Package
-Title: Power calculations in a dashboard
-Version: 0.0.1
+Title: Interactive Sample Size Calculator
+Version: 0.1.1
 Authors@R: person("Gonzalo", "Rivero", email = "gonzalorivero@westat.com",
   role = c("aut", "cre"))
-Description: Prototype for a power calculation dashboard
+Description: Sample size calculator using the \\code{pwr} as backend with some tweaks to expose it through OpenCPU. 
 License: GPL
 Encoding: UTF-8
 LazyData: true
