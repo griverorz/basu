@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 basu
 ====
@@ -113,5 +112,3 @@ run as a Docker container.
 docker build -t basu .
 docker run -p 5656:5656 basu
 ```
-
->>>>>>> ae7854f8075b880f073f93859de997db884b3414

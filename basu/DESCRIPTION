@@ -3,8 +3,8 @@ Type: Package
 Title: Interactive Sample Size Calculator
 <<<<<<< HEAD
 Version: 0.2.1
-Author@R: person("Gonzalo", "Rivero", email = "gonzalorivero@westat.com",
-                 role = c("aut", "cre"))
+Author@R: person("Kristin", "Chen", email = "kristinchen@westat.com",
+                     role = c("aut",cre"))
 Maintainer@R: person("Kristin", "Chen", email = "kristinchen@westat.com",
                      role = c("cre"))
 Description: Customized vector-allowed sample size calculator using the \\code{pwr} as backend to expose it through OpenCPU.
@@ -21,4 +21,3 @@ License: GPL
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
->>>>>>> ae7854f8075b880f073f93859de997db884b3414
