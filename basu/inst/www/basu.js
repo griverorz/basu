@@ -1,3 +1,13 @@
+function vectorize_input(x, parseFn) {
+    const str = x;
+    var res = str.split(" ");
+    for (i = 0; len = res.length; i++) {
+        res[i] = parseFn(res[i])
+    }
+    console.log(res);
+}
+
+
 function EH(p1, p2) {
     return 2 * Math.asin(Math.sqrt(p1)) - 2 * Math.asin(Math.sqrt(p2))
 }
@@ -173,7 +183,7 @@ $(document).ready(function() {
             alert("Error: " + req.responseText);
         });
     });
-
+    [<3;104;31m]
     $("#rtest").click(function() {
         var params = r_test_param_builder();
         var req = ocpu.rpc("v.pwr.r.test",
