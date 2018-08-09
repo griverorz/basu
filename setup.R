@@ -4,7 +4,8 @@ options(repos = r)
 
 install.packages(c("rmarkdown",
                    "htmltools",
-                   "flexdashboard"))
+                   "flexdashboard",
+                   "opencpu"))
 
 rmarkdown::render(input="index.Rmd", output_file="basu/inst/www/index.html")
 

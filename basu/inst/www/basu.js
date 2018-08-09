@@ -160,7 +160,7 @@ $(document).ready(function() {
 
     $("#ttest").click(function() {
         var params = t_test_param_builder();
-        var req = ocpu.rpc("pwr.t.test",
+        var req = ocpu.rpc("v.pwr.t.test",
                            params,
                            function(output) {
                                if (("n" in params) && (params["deff"] != 1)) {
@@ -176,7 +176,7 @@ $(document).ready(function() {
 
     $("#rtest").click(function() {
         var params = r_test_param_builder();
-        var req = ocpu.rpc("pwr.r.test",
+        var req = ocpu.rpc("v.pwr.r.test",
                            params,
                            function(output) {
                                build_table(output);

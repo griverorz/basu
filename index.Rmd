@@ -3,7 +3,7 @@ title: "Sample size calculator"
 output: 
   flexdashboard::flex_dashboard:
     theme: flatly
-    source_code: "http://devtools01.westat.com:8081/rivero_g/basu/"
+    source_code: "http://devtools01.westat.com:8081/Statistics/basu/"
 ---
 
 ```{r, echo=FALSE}
@@ -78,10 +78,8 @@ tags$div(class="form-group",
 tags$div(class="form-group",
          tags$label("Type of test"),
          tags$select(class="form-control",
-                     tags$option("One sample", value="pwr.p.test"),
-                     tags$option("Two samples", value="pwr.2p.test"),
-                     ## tags$option("Two sample (different sizes)",
-                     ##             value="pwr.2p2n.test"),                     
+                     tags$option("One sample", value="v.pwr.p.test"),
+                     tags$option("Two samples", value="v.pwr.2p.test"),
                      id="pfunction"))
 
 tags$button("Submit", type="submit", class="btn btn-primary", id="ptest")
