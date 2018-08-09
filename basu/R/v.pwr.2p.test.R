@@ -14,34 +14,49 @@
 #' @param deff Design effect.
 #' @return A list of sublists contain values(s) of the arguments augmented with
 #'   'method' and 'NOTE' elements. The argument(s) are assigned/computed
-#'   multiple values will be returned in a sequence of expanding combination,
+#'   multiple values will be returned in a sequence ofy expanding combination,
 #'   while the argument(s) inputted single value will be returned only one
 #'   single value.
 #' @export
-v.pwr.2p.test <- function(h = NULL,
-                          n = NULL,
-                          sig.level = 0.05,
-                          power = NULL,
-                          alternative = c("two.sided","less","greater"),
-                          deff = 1) {
-    argnames <- names(as.list(match.call()))[-1]
-    args <- sapply(argnames, function(x) get(x), simplify = FALSE)
-    if (sum(unlist(lapply(args , function(x) length(x) != 1))) > 2)
-      stop("only enter multiple values of up to 2 arguments")
+v.pwr.2p.test <- function(..., deff=1) {
+    out <- vector_pwr(..., pwrf=pwr:::pwr.2p.test, deff=1)
+    return(out)
+}
+
+
+vector_pwr <- function(..., deff=1) {
+    
+    args <- as.list(match.call())[-1]
+    for (i in 1:length(args)) {
+        args[[i]] <- eval(args[[i]])
+    }
+
+    pwrf <- args$pwrf; args$pwrf <- NULL
+    
+    if (sum(lapply(args, function(x) length(x) > 1) > 2)) {
+        stop("More than two arguments are vectors")
+    }
+
+    if (length(deff) > 1) {
+        stop("Design effect can only be a single value")
+    }
+    
     newargs <- expand.grid(args, stringsAsFactors = FALSE)
     newargs$deff <- NULL
-    out <- lapply(split(newargs, seq(nrow(newargs))),
-                  function(x) do.call(pwr::pwr.2p.test,x))
-    if (deff != 1 & is.null(n)) {
-      out <- lapply(out, function(x) modifyList(x, list(n=x$n*deff)))
+    res <- lapply(split(newargs, seq(nrow(newargs))),
+                  function(x) do.call(pwrf, x))
+    
+    if (args$deff != 1 & is.null(args$n)) {
+      res <- lapply(res, function(x) modifyList(x, list(n=args$n*deff)))
     }
-    if ((deff != 1) & !is.null(n)) {
-      warning("design effect is being ignored and set to 1")
+    
+    if ((args$deff != 1) & !is.null(args$n)) {
+        warning("Design effect is being ignored and set to 1")
     }
-    out <- lapply(out, function(x) structure(c(unclass(x),deff = deff)))
-    out <- do.call(Map, c(c, out))
-    out <- lapply(out, function(x)
-        if(length(unique(x)) == 1) {x <- unique(x)}
-        else {x <- x})
-    return(out)
-    }
+
+    res <- lapply(res, unclass)
+    res <- lapply(res, function(x) modifyList(x, list("deff"=args$deff)))
+
+    res <- do.call(rbind, res)
+    return(res)
+}
