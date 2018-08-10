@@ -1,15 +1,21 @@
-function vectorize_input(x, parseFn) {
-    const str = x;
-    var res = str.split(" ");
-    for (i = 0; len = res.length; i++) {
-        res[i] = parseFn(res[i])
+function vectorize_input(x, parseFun) {
+    if (x == "") {
+        return null;
     }
-    console.log(res);
+    var res = x.split(/[ ,]+/).map(parseFun);
+    return res;
 }
 
 
 function EH(p1, p2) {
-    return 2 * Math.asin(Math.sqrt(p1)) - 2 * Math.asin(Math.sqrt(p2))
+    if (p1.length != p2.length) {
+        alert("p1 and p2 have different lengths");
+    }
+    var output = []
+    for (var i = 0; i < p1.length; i++) {
+        output[i] = 2 * Math.asin(Math.sqrt(p1[i])) - 2 * Math.asin(Math.sqrt(p2[i]));
+    }
+    return output;
 }
 
 
@@ -69,14 +75,14 @@ function cohen_table(x) {
 
 function p_test_param_builder() {
     var params = {};
-    params["p1"] = parseFloat($("#p1").val()) || null;
-    params["p2"] = parseFloat($("#p2").val()) || null;
-    params["sig.level"] = parseFloat($("#siglevel").val()) || null;
-    params["power"] = parseFloat($("#power").val()) || null;
+    params["p1"] = vectorize_input($("#p1").val(), parseFloat) || null;
+    params["p2"] = vectorize_input($("#p2").val(), parseFloat) || null;
+    params["sig.level"] = vectorize_input($("#siglevel").val(), parseFloat) || null;
+    params["power"] = vectorize_input($("#power").val(), parseFloat) || null;
     params["alternative"] = $("#alternative").val();
-    params["n"] = Number($("#size1").val()) || null;
-    params["deff"] = parseFloat(Number($("#deff").val()));
-        
+    params["n"] = vectorize_input($("#size1").val(), parseFloat) || null;
+    params["deff"] = parseFloat($("#deff").val());
+
     for (var key in params) {
         if (params[key] == null) {
             delete params[key];
@@ -89,6 +95,7 @@ function p_test_param_builder() {
         params['h'] = EH(params['p1'], params['p2']);
     }
     
+    console.log(params);
     delete params['p1'];
     delete params['p2'];
     return params;
@@ -97,10 +104,10 @@ function p_test_param_builder() {
 
 function t_test_param_builder() {
     var params = {};
-    params["d"] = parseFloat($("#td").val()) || null;
-    params["sig.level"] = parseFloat($("#tsiglevel").val()) || null;
-    params["power"] = parseFloat($("#tpower").val()) || null;
-    params["n"] = Number($("#tsize").val()) || null;
+    params["d"] = vectorize_input($("#td").val(), parseFloat) || null;
+    params["sig.level"] = vectorize_input($("#tsiglevel", parseFloat).val()) || null;
+    params["power"] = vectorize_input($("#tpower").val(), parseFloat) || null;
+    params["n"] = vectorize_input($("#tsize").val(), parseFloat) || null;
     params["alternative"] = $("#talternative").val();
     params["type"] = $("#ttype").val();
     params["deff"] = parseFloat($("#deff").val()); 
@@ -118,10 +125,10 @@ function t_test_param_builder() {
 
 function r_test_param_builder() {
     var params = {};
-    params["r"] = parseFloat($("#rr").val()) || null;
-    params["sig.level"] = parseFloat($("#rsiglevel").val()) || null;
-    params["power"] = parseFloat($("#rpower").val()) || null;
-    params["n"] = Number($("#rsize").val()) || null;
+    params["r"] = vectorize_input($("#rr", parseFloat).val()) || null;
+    params["sig.level"] = vectorize_input($("#rsiglevel", parseFloat).val()) || null;
+    params["power"] = vectorize_input($("#rpower", parseFloat).val()) || null;
+    params["n"] = vectorize_input($("#rsize").val(), parseFloat) || null;
     params["alternative"] = $("#ralternative").val();
     
     for (var key in params) {
@@ -183,7 +190,6 @@ $(document).ready(function() {
             alert("Error: " + req.responseText);
         });
     });
-    [<3;104;31m]
     $("#rtest").click(function() {
         var params = r_test_param_builder();
         var req = ocpu.rpc("v.pwr.r.test",

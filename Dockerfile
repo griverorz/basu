@@ -5,8 +5,9 @@ RUN apt-get update -y \
     && apt-get install -y \
     pandoc
 
+COPY setup.R .
+COPY index.Rmd .
 COPY /basu/* /basu/
-WORKDIR /basu
 
 EXPOSE 5656
 

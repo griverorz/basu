@@ -27,34 +27,29 @@ tags$div(class="form-group",
          tags$label("First proportion (or effect size)"),
          tags$input(class="form-control",
                     placeholder="First proportion (e.g., 0.8) or effect size",
-                    type="number", min="0", max="1", step="0.001",
                     id="p1"))
 
 tags$div(class="form-group",
          tags$label("Second proportion"),
          tags$input(class="form-control",
                     placeholder="Second proportion (e.g., 0.2) or empty for effect size",
-                    type="number", min="0", max="1", step="0.001",
                     id="p2"))
 
 tags$div(class="form-group",
          tags$label("Significance level"),
          tags$input(class="form-control",
                     placeholder="Alpha level as a proportion (e.g., 0.05)",
-                    type="number", min="0", max="1", step="0.001",
                     id="siglevel"))
 
 tags$div(class="form-group", 
          tags$label("Power"),
          tags$input(class="form-control",
                     placeholder="Power as a proportion (e.g., 0.8)",
-                    type="number", min="0", max="1", step="0.001",
                     id="power"))
 
 tags$div(class="form-group", id="isize",
          tags$label("Sample size"),
          tags$input(class="form-control", 
-                    type="number", min="0", step="1",
                     id="size1"))
 
 tags$div(class="form-group", 
@@ -94,34 +89,29 @@ tags$div(class="form-group",
          tags$label("True difference"),
          tags$input(class="form-control",
                     placeholder="Effect size (Cohen's d)",
-                    type="number", step="0.001",
                     id="td"))
 
 tags$div(class="form-group",
          tags$label("Significance level"),
          tags$input(class="form-control",
                     placeholder="Alpha level as a proportion (e.g., 0.05)",
-                    type="number", min="0", max="1", step="0.001",
                     id="tsiglevel"))
 
 tags$div(class="form-group",
          tags$label("Power"),
          tags$input(class="form-control",
                     placeholder="Power as a proportion (e.g., 0.8)",
-                    type="number", min="0", max="1", step="0.001",
                     id="tpower"))
 
 tags$div(class="form-group",
          tags$label("Sample size"),
          tags$input(class="form-control", 
-                    type="number", min="0", step="1",
                     id="tsize"))
 
 tags$div(class="form-group", 
          tags$label("Design effect"),
          tags$input(class="form-control",
                     value="1",
-                    type="number",
                     id="tdeff"))
 
 tags$div(class="form-group",
@@ -152,27 +142,23 @@ tags$div(class="form-group",
          tags$label("Correlation"),
          tags$input(class="form-control",
                     placeholder="Correlation coefficient",
-                    type="number", step="0.001",
                     id="rr"))
 
 tags$div(class="form-group",
          tags$label("Significance level"),
          tags$input(class="form-control",
                     placeholder="Alpha level as a proportion (e.g., 0.05)",
-                    type="number", min="0", max="1", step="0.001",
                     id="rsiglevel"))
 
 tags$div(class="form-group",
          tags$label("Power"),
          tags$input(class="form-control",
                     placeholder="Power as a proportion (e.g., 0.8)",
-                    type="number", min="0", max="1", step="0.001",
                     id="rpower"))
 
 tags$div(class="form-group",
          tags$label("Sample size"),
          tags$input(class="form-control", 
-                    type="number", min="0", step="1",
                     id="rsize"))
 
 tags$div(class="form-group",
