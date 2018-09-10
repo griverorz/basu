@@ -14,3 +14,7 @@ install:
 	Rscript -e 'devtools::document("./basu")'
 	Rscript -e 'devtools::build("./basu")'
 	Rscript -e 'devtools::install("./basu")'
+
+docker:
+	docker build -t basu .
+	docker run -p 5656:5656 basu

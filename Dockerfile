@@ -7,7 +7,7 @@ RUN apt-get update -y \
 
 COPY setup.R .
 COPY index.Rmd .
-COPY /basu/* /basu/
+COPY basu basu
 
 EXPOSE 5656
 
