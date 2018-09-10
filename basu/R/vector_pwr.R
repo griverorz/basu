@@ -17,7 +17,7 @@ vector_pwr <- function(..., deff) {
 
     pwrf <- args$pwrf; args$pwrf <- NULL
     
-    if (sum(lapply(args, function(x) length(x) > 1) > 2)) {
+    if (sum(unlist(lapply(args, function(x) length(x) > 1))) > 2) {
         stop("More than two arguments are vectors")
     }
 
