@@ -6,7 +6,7 @@
 #' @return An \\code{rbind} of the result of applying the appropriate function
 #'     from the \\code{pwr} package to each combination of the input parameters.
 #' @import pwr
-vector_pwr <- function(..., deff=1) {
+vector_pwr <- function(..., deff) {
     args <- as.list(match.call())[-1]
 
     ## lapply produces an error message probably due to the evaluation
@@ -31,7 +31,7 @@ vector_pwr <- function(..., deff=1) {
                   function(x) do.call(pwrf, x))
     
     if (args$deff != 1 & is.null(args$n)) {
-      res <- lapply(res, function(x) modifyList(x, list(n=args$n*deff)))
+      res <- lapply(res, function(x) modifyList(x, list(n=x$n*args$deff)))
     }
     
     if ((args$deff != 1) & !is.null(args$n)) {
