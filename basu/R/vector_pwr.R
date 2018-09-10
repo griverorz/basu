@@ -5,6 +5,7 @@
 #' @param deff The design effect
 #' @return An \\code{rbind} of the result of applying the appropriate function
 #'     from the \\code{pwr} package to each combination of the input parameters.
+#' @import pwr
 vector_pwr <- function(..., deff=1) {
     args <- as.list(match.call())[-1]
 
