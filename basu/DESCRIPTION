@@ -2,8 +2,7 @@ Package: basu
 Type: Package
 Title: Interactive Sample Size Calculator
 Version: 0.3.1
-Author@R: as.person(c(
-                      "Gonzalo Rivero <gonzalorivero@westat.com> [aut, cre]",
+Author@R: as.person(c("Gonzalo Rivero <gonzalorivero@westat.com> [aut, cre]",
                       "Kristin Chen <kristinchen@westat.com> [cre]"))
 Maintainer@R: as.person("Kristin Chen <kristinchen@westat.com> [cre]")
 Description: Customized vector-allowed sample size calculator using the \\code{pwr} as backend to expose it through OpenCPU.

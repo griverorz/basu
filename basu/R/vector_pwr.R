@@ -42,5 +42,21 @@ vector_pwr <- function(..., deff=1) {
     res <- lapply(res, function(x) modifyList(x, list("deff"=args$deff)))
 
     res <- do.call(rbind, res)
-    return(res)
+    return(basu_output(res))
+}
+
+
+#' Format output for basu dashboard
+basu_output <- function(x) {
+    x <- as.data.frame(x)
+
+    .reducer <- function(i) {
+        if (length(unique(i)) == 1) {
+            return(unique(i))
+        }
+        else return(i)
+    }
+    
+    out <- lapply(x, function(m) .reducer(unlist(m)))
+    return(out)
 }

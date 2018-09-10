@@ -1,3 +1,10 @@
+/**
+ * Given a string, splits it by spaces or commas
+ * 
+ * @param {string} x The input string
+ * @param {function} parseFun the parsing function to be used
+ * @returns {array}
+ */
 function vectorize_input(x, parseFun) {
     if (x == "") {
         return null;
@@ -6,7 +13,13 @@ function vectorize_input(x, parseFun) {
     return res;
 }
 
-
+/**
+ * Effect size calculation for proportions
+ * 
+ * @param {array} p1 First proportions
+ * @param {array} p2 Second proportions
+ * @returns {array}
+ */
 function EH(p1, p2) {
     if (p1.length != p2.length) {
         alert("p1 and p2 have different lengths");
@@ -19,6 +32,12 @@ function EH(p1, p2) {
 }
 
 
+/**
+ * Build a table from an Object using JQuery
+ * 
+ * @param {object} x The output from the R basu package as called by ocpu.rpc
+ * @returns a table inserted into the dashboard identified by #basuoutput
+ */
 function build_table(x) {
 
     var hnames = {
@@ -38,18 +57,35 @@ function build_table(x) {
         
     var table = $("#basuoutput");
     table.find('tbody').empty();
-        
-    for (var key in x){
-        var row =  $('<tr/>', {class: '' }); 
+
+    len = Object.values(x).map(i => typeof i != "object" ? 1 : Array.from(i).length)
+    maxlen = Math.max(...len)
+    
+    for (var key in x) {        
+        var row =  $('<tr/>', { class: '' });        
         row.append($('<td/>').append(hnames[key]));
-        row.append($('<td/>').append(x[key]));
-        table.find('tbody').append(row);
-    }
-    $('#basuoutput').addClass("table table-hover");
-    $("tr:even").addClass("table-active");    
+
+        var len = typeof x[key] != "object" ? 1 : Array.from(x[key]).length
+
+        if (len == 1) {
+            row.append($('<td/>', { colspan: maxlen }).append(x[key]));
+        } else {
+            for (var l = 0; l < len; l++)
+                row.append($('<td/>').append(x[key][l]));
+        }
+        table.find('tbody').append(row);                
+    }   
+    
+    $('#basuoutput').addClass("table table-hover table-fit");
+    $("tr:even").addClass("table-active"); 
 }
 
-
+/**
+ * Build a table from an Object using JQuery for the Cohen Table
+ * 
+ * @param {object} x The output from cohen.table of the pwr package as called by ocpu.rpc
+ * @returns a table inserted into the dashboard identified by #basuoutput
+ */
 function cohen_table(x) {
     
     var hnames = {
@@ -73,6 +109,14 @@ function cohen_table(x) {
 }
 
 
+/**
+ * Preprocessing of the parameters for p.test in pwr
+ *
+ * @param None Inputs data from the HTML directly using JQuery
+ * @returns {Object} The clean version of the parameters formated to be fed to R
+ * through the ocpu.rpc function. Notice that if two proportions are passed, the
+ * function will first calculate the effective sample size.
+ */
 function p_test_param_builder() {
     var params = {};
     params["p1"] = vectorize_input($("#p1").val(), parseFloat) || null;
@@ -101,7 +145,13 @@ function p_test_param_builder() {
     return params;
 }
 
-
+/**
+ * Preprocessing of the parameters for t.test in pwr
+ *
+ * @param None Inputs data from the HTML directly using JQuery
+ * @returns {Object} The clean version of the parameters formated to be fed to R
+ * through the ocpu.rpc function.
+ */
 function t_test_param_builder() {
     var params = {};
     params["d"] = vectorize_input($("#td").val(), parseFloat) || null;
@@ -122,7 +172,13 @@ function t_test_param_builder() {
 }
 
 
-
+/**
+ * Preprocessing of the parameters for r.test in pwr
+ *
+ * @param None Inputs data from the HTML directly using JQuery
+ * @returns {Object} The clean version of the parameters formated to be fed to R
+ * through the ocpu.rpc function. 
+ */
 function r_test_param_builder() {
     var params = {};
     params["r"] = vectorize_input($("#rr", parseFloat).val()) || null;
@@ -143,21 +199,6 @@ function r_test_param_builder() {
 
 $(document).ready(function() {
     
-    // var istr = '<div class="form-group">' +
-    //     '<label>Second sample size</label>' +
-    //     '<input class="form-control" id="size2" type="number" step="1" min="0" />' + 
-    //     '</div>'
-
-    // $(function() {
-    //     $('#pfunction').on(function() {
-    //         if ($(this).val() == 'pwr.2p2n.test') {
-    //             $('#isize').after(istr);
-    //         } else {
-    //             $('#size2').remove();
-    //         }
-    //     });    
-    // });
-
     $("#ptest").click(function() {
         var params = p_test_param_builder();
         var f = $("#pfunction").val();
