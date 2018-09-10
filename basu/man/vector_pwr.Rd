@@ -4,7 +4,7 @@
 \alias{vector_pwr}
 \title{Backend vectorizer for functions in the pwr package}
 \usage{
-vector_pwr(..., deff = 1)
+vector_pwr(..., deff)
 }
 \arguments{
 \item{...}{Any parameters passed to a function in the \\code{pwr} package.}

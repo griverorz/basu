@@ -7,11 +7,13 @@ version:
 	git push origin master --tags
 	-rm *.tar.gz
 	Rscript -e 'devtools::document("./basu")'
+	Rscript -e 'devtools::test("./basu")'
 	Rscript -e 'devtools::build("./basu")'
 
 install:
 	-rm *.tar.gz
 	Rscript -e 'devtools::document("./basu")'
+	Rscript -e 'devtools::test("./basu")'			
 	Rscript -e 'devtools::build("./basu")'
 	Rscript -e 'devtools::install("./basu")'
 
