@@ -1,7 +1,7 @@
 Package: basu
 Type: Package
 Title: Interactive Sample Size Calculator
-Version: 0.5.2
+Version: 0.5.3
 Author@R: as.person(c("Gonzalo Rivero <gonzalorivero@westat.com> [aut, cre]",
                       "Kristin Chen <kristinchen@westat.com> [cre]"))
 Maintainer@R: as.person("Kristin Chen <kristinchen@westat.com> [cre]")
