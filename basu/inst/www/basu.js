@@ -109,7 +109,7 @@ function build_table(x) {
         table.find('tbody').append(row); 
     }
     
-    $('#basuoutput').addClass("table table-hover table-fit");
+    $('#basuoutput').addClass("table table-hover table-fit table-striped table-bordered");
     $("tr:even").addClass("table-active");
     $('.headrow').css('font-weight', 'bold');
     $('.headcol').css('font-weight', 'bold');
