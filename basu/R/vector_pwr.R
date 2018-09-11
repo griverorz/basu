@@ -8,14 +8,21 @@
 #' @import pwr
 vector_pwr <- function(..., deff) {
     args <- as.list(match.call())[-1]
-
+    
     ## lapply produces an error message probably due to the evaluation
     ## for-loop is safer albeit it is uglier
     for (i in 1:length(args)) {
         args[[i]] <- eval(args[[i]])
     }
-
+    
     pwrf <- args$pwrf; args$pwrf <- NULL
+
+    ## What's the missing argument?
+    candargs <- as.list(args(eval(pwrf)))
+    
+    exist_covars <- args[!unlist(lapply(args, is.null)) & names(args) != "deff"]
+    required_covars <- candargs[unlist(lapply(candargs, is.null)) & names(candargs) != ""] 
+    missing_covar <- setdiff(names(required_covars), names(exist_covars))
     
     if (sum(unlist(lapply(args, function(x) length(x) > 1))) > 2) {
         stop("More than two arguments are vectors")
@@ -39,8 +46,8 @@ vector_pwr <- function(..., deff) {
     }
 
     res <- lapply(res, unclass)
-    res <- lapply(res, function(x) modifyList(x, list("deff"=args$deff)))
-
+    res <- lapply(res, function(x) modifyList(x, list("deff"=args$deff,
+                                                      "calculated_covar"=missing_covar)))  
     res <- do.call(rbind, res)
     return(basu_output(res))
 }
