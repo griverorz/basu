@@ -4,8 +4,7 @@
 \alias{cohen.ES}
 \title{Cohen effect size}
 \usage{
-cohen.ES(test = c("p", "t", "r", "anov", "chisq", "f2"),
-  size = c("small", "medium", "large"))
+cohen.ES(...)
 }
 \description{
 Cohen effect size
