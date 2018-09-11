@@ -32,4 +32,7 @@ v.pwr.r.test <- function(..., deff=1) {
 
 #' Cohen effect size
 #' @export
-cohen.ES <- pwr:::cohen.ES
+cohen.ES <- function(...) {
+    out <- pwr:::cohen.ES(...)
+    return(unclass(out))
+}
