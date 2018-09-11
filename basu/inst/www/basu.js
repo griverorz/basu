@@ -52,7 +52,8 @@ function build_table(x) {
         power : "Power",
         alternative : "Alternative hypothesis",
         method : "Method",
-        note : "Notes"
+        note : "Notes",
+        "calculated_covar": "Calculated var"
     }
         
     var table = $("#basuoutput");
