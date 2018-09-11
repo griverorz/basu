@@ -6,7 +6,7 @@ install.packages(c("rmarkdown",
                    "pwr",
                    "htmltools",
                    "flexdashboard",
-                   "opencpu"))
+                   "opencpu"), dependencies=TRUE)
 
 rmarkdown::render(input="index.Rmd", output_file="basu/inst/www/index.html")
 
