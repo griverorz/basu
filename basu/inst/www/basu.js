@@ -59,26 +59,60 @@ function build_table(x) {
     var table = $("#basuoutput");
     table.find('tbody').empty();
 
-    len = Object.values(x).map(i => typeof i != "object" ? 1 : Array.from(i).length)
-    maxlen = Math.max(...len)
+    // Array with length of object
+    keys = Object.keys(x);
+    var len = {}
+    for (var k of keys) {
+        len[k] = typeof x[k] != "object" ? 1 : Array.from(x[k]).length;
+    }
+    mlen = Math.max(...Object.values(len))
     
-    for (var key in x) {        
-        var row =  $('<tr/>', { class: '' });        
-        row.append($('<td/>').append(hnames[key]));
-
-        var len = typeof x[key] != "object" ? 1 : Array.from(x[key]).length
-
-        if (len == 1) {
-            row.append($('<td/>', { colspan: maxlen }).append(x[key]));
+    // Separate variables in rows and columns
+    to_rows = [];
+    to_cols = [];
+    for (var i in len) {        
+        if (len[i] <= 1) {
+            to_rows.push(i);
         } else {
-            for (var l = 0; l < len; l++)
-                row.append($('<td/>').append(x[key][l]));
+            to_cols.push(i);
         }
-        table.find('tbody').append(row);                
-    }   
+    }
+    ncols = to_cols.length
+    to_row = to_rows.filter(e => e != "calculated_covar")
+    
+    // Ensure calculated variable is last
+    if (to_cols.length > 1) {
+        to_cols = to_cols.filter(e => e != x['calculated_covar']);
+        to_cols = to_cols.concat(x['calculated_covar'])
+    }
+
+    if (to_cols.length > 0) {
+        for (var i=0; i < (mlen + 1); i++) {
+            var row =  $('<tr/>', { class: '' });
+            row.append($('<td/>').append(''));
+
+            for (var j=0; j < ncols; j++) {
+                if (i == 0) {
+                    row.append($('<td/>', { class: "headrow"} ).append(hnames[to_cols[j]]));
+                } else {
+                    row.append($('<td/>').append(x[to_cols[j]][i - 1]));
+                }
+            }                                
+            table.find('tbody').append(row); 
+        }
+    }
+
+    for (var key of to_rows) {
+        var row =  $('<tr/>', { class: '' });
+        row.append($('<td/>', { class: "headcol" }).append(hnames[key]));
+        row.append($('<td/>', { colspan: mlen }).append(x[key]));
+        table.find('tbody').append(row); 
+    }
     
     $('#basuoutput').addClass("table table-hover table-fit");
-    $("tr:even").addClass("table-active"); 
+    $("tr:even").addClass("table-active");
+    $('.headrow').css('font-weight', 'bold');
+    $('.headcol').css('font-weight', 'bold');
 }
 
 /**
@@ -140,7 +174,6 @@ function p_test_param_builder() {
         params['h'] = EH(params['p1'], params['p2']);
     }
     
-    console.log(params);
     delete params['p1'];
     delete params['p2'];
     return params;
@@ -156,7 +189,7 @@ function p_test_param_builder() {
 function t_test_param_builder() {
     var params = {};
     params["d"] = vectorize_input($("#td").val(), parseFloat) || null;
-    params["sig.level"] = vectorize_input($("#tsiglevel", parseFloat).val()) || null;
+    params["sig.level"] = vectorize_input($("#tsiglevel").val(), parseFloat) || null;
     params["power"] = vectorize_input($("#tpower").val(), parseFloat) || null;
     params["n"] = vectorize_input($("#tsize").val(), parseFloat) || null;
     params["alternative"] = $("#talternative").val();
@@ -182,9 +215,9 @@ function t_test_param_builder() {
  */
 function r_test_param_builder() {
     var params = {};
-    params["r"] = vectorize_input($("#rr", parseFloat).val()) || null;
-    params["sig.level"] = vectorize_input($("#rsiglevel", parseFloat).val()) || null;
-    params["power"] = vectorize_input($("#rpower", parseFloat).val()) || null;
+    params["r"] = vectorize_input($("#rr").val(), parseFloat) || null;
+    params["sig.level"] = vectorize_input($("#rsiglevel").val(), parseFloat) || null;
+    params["power"] = vectorize_input($("#rpower").val(), parseFloat) || null;
     params["n"] = vectorize_input($("#rsize").val(), parseFloat) || null;
     params["alternative"] = $("#ralternative").val();
     
