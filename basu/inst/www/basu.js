@@ -23,6 +23,9 @@ function vectorize_input(x, parseFun) {
  * @returns {array}
  */
 function EH(p1, p2) {
+    if (isNaN(p1) & !isNaN(p2) | isNaN(p2) & !isNaN(p1)) {
+        alert("Either p1 or p2 does not exist");
+    }
     if (p1.length != p2.length) {
         alert("p1 and p2 have different lengths");
     }
