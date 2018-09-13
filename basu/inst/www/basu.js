@@ -9,9 +9,11 @@ function vectorize_input(x, parseFun) {
     if (x == "") {
         return null;
     }
-    var res = x.split(/[ ,]+/).map(parseFun);
+    
+    var res = x.trim().split(/[ ,]+/).map(parseFun);
     return res;
 }
+
 
 /**
  * Effect size calculation for proportions
