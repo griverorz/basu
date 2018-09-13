@@ -26,9 +26,21 @@ function EH(p1, p2) {
     if (p1.length != p2.length) {
         alert("p1 and p2 have different lengths");
     }
-    var output = []
-    for (var i = 0; i < p1.length; i++) {
+    var output = [];
+    for (var i=0; i < p1.length; i++) {
         output[i] = 2 * Math.asin(Math.sqrt(p1[i])) - 2 * Math.asin(Math.sqrt(p2[i]));
+    }
+    return output;
+}
+
+
+/** Calculate difference in p for a given effect size
+*
+**/
+function p1_from_h(h, p2) {
+    var output = [];
+    for (var i=0; i < h.length; i++) {
+        output[i] = Math.pow(Math.sin((h + 2*Math.asin(Math.sqrt(p2[i])))/2), 2);
     }
     return output;
 }
@@ -55,6 +67,7 @@ function build_table(x) {
         alternative : "Alternative hypothesis",
         method : "Method",
         note : "Notes",
+        mdd : "Minimum Detectable Diff",
         "calculated_covar": "Calculated var"
     }
         
@@ -172,16 +185,16 @@ function p_test_param_builder() {
 
     if (params["p2"] == null) {
         params['h'] = params['p1'];
+        delete params['p1'];
+        delete params['p2'];        
     } else if (params["p1"] == null & params["p2"] != null) {
-        alert("p1 cannot be missing if p2 is not missing.");
-    }
-    else {
-        params['h'] = EH(params['p1'], params['p2']);    
+        delete params["p1"];
+    } else {
+        params['h'] = EH(params['p1'], params['p2']);
+        delete params['p1'];
+        delete params['p2'];
     }
     
-    
-    delete params['p1'];
-    delete params['p2'];
     return params;
 }
 
