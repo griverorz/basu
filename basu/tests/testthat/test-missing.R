@@ -9,5 +9,5 @@ test_that("Captures missing n in v.pwr.p.test",
 test_that("Captures missing power in v.pwr.p.test",
     expect_equal(v.pwr.p.test(h=1, n=50, sig.level=0.05, deff=1)$calculated_covar, "power"))
 
-test_that("Errors if missing sig.level in v.pwr.p.test",
-    expect_error(v.pwr.p.test(h=1, n=50, power=0.8, deff=1)$calculated_covar))
+test_that("Captures missing sig.level in v.pwr.p.test",
+    expect_equal(v.pwr.p.test(h=1, n=50, power=0.8, deff=1)$calculated_covar, "sig.level"))
