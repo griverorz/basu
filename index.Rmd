@@ -32,7 +32,7 @@ tags$div(class="form-group",
 tags$div(class="form-group",
          tags$label("Second proportion"),
          tags$input(class="form-control",
-                    placeholder="Second proportion (e.g., 0.2) or empty for effect size",
+                    placeholder="Second proportion (e.g., 0.2). Leave empty to get effect size",
                     id="p2"))
 
 tags$div(class="form-group",

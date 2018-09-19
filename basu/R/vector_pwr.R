@@ -5,7 +5,6 @@
 #' @param deff The design effect
 #' @return An \\code{rbind} of the result of applying the appropriate function
 #'     from the \\code{pwr} package to each combination of the input parameters.
-#' @import pwr
 vector_pwr <- function(..., deff) {
     args <- as.list(match.call())[-1]
     
@@ -23,6 +22,17 @@ vector_pwr <- function(..., deff) {
     exist_covars <- args[!unlist(lapply(args, is.null)) & names(args) != "deff"]
     required_covars <- candargs[unlist(lapply(candargs, is.null)) & names(candargs) != ""] 
     missing_covar <- setdiff(names(required_covars), names(exist_covars))
+
+    ## Ensure that proper missing argument is calculated
+    ## If p2 is present, then it is calculating mdd (otherwise the function would have broken)
+    if (!is.null(args$p2)) {
+        missing_covar <- "p1"
+    }
+
+    ## If both p2 and something else is included, remove p2
+    if (length(missing_covar) > 1 & "p2" %in% missing_covar) {
+        missing_covar <- missing_covar["p2" != missing_covar]
+    }
     
     if (sum(unlist(lapply(args, function(x) length(x) > 1))) > 2) {
         stop("More than two arguments are vectors")

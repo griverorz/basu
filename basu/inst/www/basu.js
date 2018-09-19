@@ -56,6 +56,8 @@ function build_table(x) {
 
     var hnames = {
         r : "Correlation coefficient",
+        p1 : "Proportion 1",
+        p2 : "Proportion 2",
         h : "Effect size",
         d : "Effect size",
         n : "Sample size",
@@ -67,7 +69,7 @@ function build_table(x) {
         alternative : "Alternative hypothesis",
         method : "Method",
         note : "Notes",
-        mdd : "Minimum Detectable Diff",
+        mdd : "Minimum detectable diff",
         "calculated_covar": "Calculated var"
     }
         
