@@ -15,6 +15,7 @@ tags$script(src="http://cdn.opencpu.org/opencpu-0.4.js")
 tags$script(src="basu.js")
 ```
 
+
 Column {.tabset}
 -------------------------------------
 
@@ -77,7 +78,10 @@ tags$div(class="form-group",
                      tags$option("Two samples", value="v.pwr.2p.test"),
                      id="pfunction"))
 
-tags$button("Submit", type="submit", class="btn btn-primary", id="ptest")
+tags$button("Submit", 
+            type="submit",
+            class="btn btn-primary",
+            id="ptest")
 ```
 
 ### Means
@@ -203,3 +207,12 @@ Column
 <tbody>
 </tbody>
 </table> 
+
+```{r}
+tags$div(class="alert alert-dismissible alert-danger",
+         style="display:none",
+         tags$button(HTML("&times;"), 
+                     type="button", 
+                     class="close", 
+                     "aria-hidden"="true"))
+```

@@ -15,6 +15,13 @@ function vectorize_input(x, parseFun) {
 }
 
 
+function error_message(x) {
+    var msg = x.replace(/\nIn call[\s\S]*/, "");
+    msg = msg.charAt(0).toUpperCase() + msg.slice(1);
+    msg = "Oh snap! " + msg;    
+    $(".alert").text(msg).show();
+}
+
 /**
  * Effect size calculation for proportions
  * 
@@ -24,7 +31,7 @@ function vectorize_input(x, parseFun) {
  */
 function EH(p1, p2) {
     if (p1.length != p2.length) {
-        alert("p1 and p2 have different lengths");
+        error_message("Check that p1 and p2 the same length");
     }
     var output = [];
     for (var i=0; i < p1.length; i++) {
@@ -253,8 +260,16 @@ function r_test_param_builder() {
 
 
 $(document).ready(function() {
+    $(".btn").click(function() {
+        $('.alert').hide();
+    });
     
-    $("#ptest").click(function() {
+    $(".btn").click(function() {
+        var table = $("#basuoutput");
+        table.find('tbody').empty();
+    });
+    
+    $("#ptest").click(function() {        
         var params = p_test_param_builder();
         var f = $("#pfunction").val();
         var req = ocpu.rpc(f,
@@ -267,7 +282,7 @@ $(document).ready(function() {
                                build_table(output);
                            });
         req.fail(function() {
-            alert("Error: " + req.responseText);
+           error_message(req.responseText);
         });
     });
 
@@ -283,7 +298,7 @@ $(document).ready(function() {
                            });
         
         req.fail(function() {
-            alert("Error: " + req.responseText);
+            error_message(req.responseText);
         });
     });
     $("#rtest").click(function() {
@@ -295,7 +310,7 @@ $(document).ready(function() {
                            });
         
         req.fail(function() {
-            alert("Error: " + req.responseText);
+            error_message(req.responseText);
         });
     });
    
@@ -309,8 +324,8 @@ $(document).ready(function() {
                                cohen_table(output);
                            });
         
-        req.fail(function() {
-            alert("Error: " + req.responseText);
+        req.fail(function() {            
+            error_message(req.responseText);
         });
     });
 
