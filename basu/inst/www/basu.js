@@ -163,8 +163,10 @@ function cohen_table(x) {
         row.append($('<td/>').append(x[key]));
         table.find('tbody').append(row);
     }
-    $('#basuoutput').addClass("table table-hover");
-    $("tr:even").addClass("table-active");    
+    $('#basuoutput').addClass("table table-hover table-fit table-striped table-bordered");
+    $("tr:even").addClass("table-active");
+    $('.headrow').css('font-weight', 'bold');
+    $('.headcol').css('font-weight', 'bold');
 }
 
 
